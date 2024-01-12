@@ -18,8 +18,11 @@ class GameManager:
 
     Methods:
         __init__(self, size, screen, sx, sy, block_cells): Initializes the GameManager object.
+        add_snake(self, snake): Adds a snake to the game manager.
         get_cell(self, pos): Retrieves the cell at the specified position.
+        kill(self, killed_snake): Removes the specified snake from the list of snakes.
         get_next_fruit_pos(self): Returns the position of the next fruit based on the current game state.
+        handle(self, keys): Handles the game logic for each turn.
     """
 
     def __init__(self, size, screen, sx, sy, block_cells):
@@ -51,6 +54,18 @@ class GameManager:
         for cell in block_cells:
             self.get_cell(cell).set_color(consts.block_color)
 
+    def add_snake(self, snake):
+        """
+        Adds a snake to the game manager.
+
+        Parameters:
+            snake (Snake): The snake object to be added.
+
+        Returns:
+            None
+        """
+        self.snakes.append(snake)
+
     def get_cell(self, pos):
         """
         Retrieves the cell at the specified position.
@@ -65,6 +80,18 @@ class GameManager:
             return self.cells[pos[0]][pos[1]]
         except:
             return None
+
+    def kill(self, killed_snake):
+        """
+        Removes the specified snake from the list of snakes.
+
+        Args:
+            killed_snake (Snake): The snake to be removed.
+
+        Returns:
+            None
+        """
+        self.snakes.remove(killed_snake)
 
     def get_next_fruit_pos(self):
         """
@@ -91,3 +118,23 @@ class GameManager:
                     ret = i, j
 
         return ret
+
+    def handle(self, keys):
+        """
+        Handles the game logic for each turn.
+
+        Args:
+            keys (list): A list of keys pressed by the players.
+
+        Returns:
+            None
+        """
+        for snake in self.snakes:
+            snake.handle(keys)
+
+        for snake in self.snakes:
+            snake.next_move()
+
+        self.turn += 1
+        if self.turn % 10 == 0:
+            self.get_cell(self.get_next_fruit_pos()).set_color(consts.fruit_color)
