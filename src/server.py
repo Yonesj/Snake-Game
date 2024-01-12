@@ -1,6 +1,7 @@
 import json
 import socket
 import sys
+import time
 
 
 class Server:
@@ -18,6 +19,8 @@ class Server:
         __init__(self, number_of_clients, port): Initializes a Server object.
         wait_for_clients(self): Waits for clients to connect to the server.
         start(self): Starts the server and initializes the game configuration for each client.
+        pass_cycle(self): Receives data from clients, updates the state, and sends data back to clients.
+        finish(self): Closes all client connections and the server socket.
         main(self): The main method that runs the server.
     """
 
@@ -106,11 +109,49 @@ class Server:
             config['id'] = ind
             it[0].sendall(str(json.dumps(config)).encode('ascii'))
 
+    def pass_cycle(self):
+        """
+        Receives data from clients, updates the state, and sends data back to clients.
+
+        Returns:
+            bool: True if any client is not dead, False otherwise.
+        """
+        ls = []
+        ret = False
+
+        for client in self.clients:
+            c = client[0]
+
+            data = json.loads(c.recv(1024).decode('ascii'))
+
+            ret |= not data['dead']
+            ls += data['keys']
+
+        for client in self.clients:
+            client[0].sendall(str(json.dumps(ls)).encode('ascii'))
+
+        return ret
+
+    def finish(self):
+        """
+        Closes all client connections and the server socket.
+        """
+        for client in self.clients:
+            c = client[0]
+            c.close()
+
+        self.s.close()
+
     def main(self):
         """
         The main method that runs the server.
         """
         self.start()
+
+        while self.pass_cycle():
+            time.sleep(0.1)
+
+        self.finish()
 
 
 if __name__ == '__main__':
