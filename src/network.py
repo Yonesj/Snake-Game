@@ -24,7 +24,7 @@ class Network:
         """
         self.s.connect((self.host, self.port))
         data = self.s.recv(1024).decode("ascii").replace("'", "\"")
-        with open("config.json", "w") as jsonFile:
+        with open(r"..\config.json", "w") as jsonFile:
             jsonFile.write(data)
 
     def send_data(self, keys):

@@ -2,7 +2,7 @@
 # The variables represent various constants used in the program.
 import json
 
-f = open("config.json")
+f = open(r"..\config.json")
 data = json.loads(f.read())
 f.close()
 
