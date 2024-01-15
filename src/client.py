@@ -29,7 +29,7 @@ def main():
         network.send_data(keys)
         keys = network.get_data()
         game.handle(keys)
-        pygame.time.wait(50)
+        pygame.time.wait(100)
 
 
 if __name__ == '__main__':
