@@ -72,19 +72,25 @@ class Server:
 
         config = {
             "cell_size": 30,
-            "back_color": [255, 255, 255],
-            "fruit_color": [255, 0, 0],
+            "back_color": [124, 252, 0],
+            "fruit_color": [210, 4, 5],
             "block_color": [139, 69, 19],
             "block_cells": [
                 [14, 14],
                 [13, 14],
                 [12, 14],
                 [15, 14],
+                [5, 5],
+                [5, 6],
+                [5, 7],
+                [5, 8],
+                [5, 9],
+                [5, 10]
             ],
-            "sx": 30,
-            "sy": 50,
-            "table_size": 25,
-            "height": 1000,
+            "sx": 40,
+            "sy": 40,
+            "table_size": 24,
+            "height": 800,
             "width": 800,
             "id": -1,
             "snakes": []
@@ -101,7 +107,7 @@ class Server:
                 },
                 "sx": 2 * i,
                 "sy": 3 * i,
-                "color": (12 * (i + 10), 12 * (i * 10), 12),
+                "color": (12, 12, 250 - (i * 30)),
                 "direction": "LEFT",
             })
 
