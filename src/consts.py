@@ -2,19 +2,20 @@
 # The variables represent various constants used in the program.
 import json
 
-f = open(r"..\config.json")
-data = json.loads(f.read())
-f.close()
+# Load configuration data from JSON file
+with open(r"..\config.json") as config_file:
+    data = json.loads(config_file.read())
 
-back_color = data['back_color']
-fruit_color = data['fruit_color']
-block_color = data['block_color']
-cell_size = data['cell_size']
-block_cells = data['block_cells']
-table_size = data['table_size']
-height = data['height']
-width = data['width']
-snakes = data['snakes']
-sx = data['sx']
-sy = data['sy']
-id = data['id']
+# Assign configuration data to variables
+back_color:  tuple = data['back_color']
+fruit_color: tuple = data['fruit_color']
+block_color: tuple = data['block_color']
+cell_size:   int   = data['cell_size']
+block_cells: list  = data['block_cells']
+table_size:  int   = data['table_size']
+height:      int   = data['height']
+width:       int   = data['width']
+snakes:      list  = data['snakes']
+sx:          int   = data['sx']
+sy:          int   = data['sy']
+id:          int   = data['id']
