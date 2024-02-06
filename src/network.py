@@ -12,12 +12,12 @@ class Network:
         s (socket.socket): The socket object for the network connection.
     """
 
-    def __init__(self, host, port):
+    def __init__(self, host: str, port: int) -> None:
         self.host = host
         self.port = port
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    def start(self):
+    def start(self) -> None:
         """
         Connects to the specified host and port, receives data from the server,
         and writes it to "config.json" file.
@@ -27,7 +27,7 @@ class Network:
         with open(r"..\config.json", "w") as jsonFile:
             jsonFile.write(data)
 
-    def send_data(self, keys):
+    def send_data(self, keys: list) -> None:
         """
         Sends the specified keys as JSON data to the server.
 
@@ -41,11 +41,11 @@ class Network:
             raise TypeError("keys must be a list")
         self.s.sendall(str(json.dumps({"keys": keys, "dead": False})).encode('ascii'))
 
-    def get_data(self):
+    def get_data(self) -> list:
         """
         Receives data from the server and returns it as a Python dictionary.
 
         Returns:
-            dict: The received data as a dictionary.
+            list: The received data as a list.
         """
         return json.loads(self.s.recv(1024).decode("ascii"))
