@@ -24,7 +24,7 @@ class Server:
         main(self): The main method that runs the server.
     """
 
-    def __init__(self, number_of_clients, port):
+    def __init__(self, number_of_clients: int, port: int) -> None:
         """
         Initializes a Server object.
 
@@ -39,7 +39,7 @@ class Server:
         self.number_of_clients = number_of_clients
         self.clients = []
 
-    def wait_for_clients(self):
+    def _wait_for_clients(self) -> None:
         """
         Waits for clients to connect to the server.
 
@@ -61,14 +61,14 @@ class Server:
         except:
             pass
 
-    def start(self):
+    def _start(self) -> None:
         """
         Starts the server and initializes the game configuration for each client.
 
         The function waits for clients to connect and then sends the game configuration
         to each client.
         """
-        self.wait_for_clients()
+        self._wait_for_clients()
 
         config = {
             "cell_size": 30,
@@ -115,7 +115,7 @@ class Server:
             config['id'] = ind
             it[0].sendall(str(json.dumps(config)).encode('ascii'))
 
-    def pass_cycle(self):
+    def _pass_cycle(self) -> bool:
         """
         Receives data from clients, updates the state, and sends data back to clients.
 
@@ -138,7 +138,7 @@ class Server:
 
         return ret
 
-    def finish(self):
+    def _finish(self) -> None:
         """
         Closes all client connections and the server socket.
         """
@@ -152,12 +152,12 @@ class Server:
         """
         The main method that runs the server.
         """
-        self.start()
+        self._start()
 
-        while self.pass_cycle():
+        while self._pass_cycle():
             time.sleep(0.1)
 
-        self.finish()
+        self._finish()
 
 
 if __name__ == '__main__':
