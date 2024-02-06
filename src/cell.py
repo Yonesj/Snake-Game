@@ -1,5 +1,6 @@
 import pygame
 import consts
+from typing import Optional
 
 
 class Cell:
@@ -19,7 +20,7 @@ class Cell:
         is_fruit(): Check if the cell is a fruit.
     """
 
-    def __init__(self, surface, sx, sy, color=consts.back_color):
+    def __init__(self, surface: pygame.Surface, sx: int, sy: int, color: Optional[tuple] = consts.back_color) -> None:
         """
         Initializes a Cell object.
 
@@ -37,7 +38,7 @@ class Cell:
         pygame.draw.rect(surface, (0, 0, 0), (sx, sy, consts.cell_size, consts.cell_size), 1)
         self.set_color(color)
 
-    def set_color(self, color):
+    def set_color(self, color: tuple) -> None:
         """
         Sets the color of the cell and updates the display.
 
@@ -51,7 +52,7 @@ class Cell:
         pygame.draw.rect(self.surface, color, (self.sx + 1, self.sy + 1, self.size - 2, self.size - 2))
         pygame.display.update()
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
         """
         Check if the cell is empty.
 
@@ -60,7 +61,7 @@ class Cell:
         """
         return self.color == consts.back_color
 
-    def is_fruit(self):
+    def is_fruit(self) -> bool:
         """
         Check if the cell is a fruit.
 
