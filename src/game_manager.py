@@ -25,7 +25,7 @@ class GameManager:
         handle(self, keys): Handles the game logic for each turn.
     """
 
-    def __init__(self, size, screen, sx, sy, block_cells):
+    def __init__(self, size: int, screen: 'pygame.Surface', sx: int, sy: int, block_cells: list):
         """
         Initialize the GameManager object.
 
@@ -54,7 +54,7 @@ class GameManager:
         for cell in block_cells:
             self.get_cell(cell).set_color(consts.block_color)
 
-    def add_snake(self, snake):
+    def add_snake(self, snake: 'Snake') -> None:
         """
         Adds a snake to the game manager.
 
@@ -66,7 +66,7 @@ class GameManager:
         """
         self.snakes.append(snake)
 
-    def get_cell(self, pos):
+    def get_cell(self, pos: tuple) -> 'Cell':
         """
         Retrieves the cell at the specified position.
 
@@ -81,7 +81,7 @@ class GameManager:
         except:
             return None
 
-    def kill(self, killed_snake):
+    def kill(self, killed_snake: 'Snake') -> None:
         """
         Removes the specified snake from the list of snakes.
 
@@ -93,7 +93,7 @@ class GameManager:
         """
         self.snakes.remove(killed_snake)
 
-    def get_next_fruit_pos(self):
+    def _get_next_fruit_pos(self) -> tuple:
         """
         Returns the position of the next fruit based on the current game state.
 
@@ -119,7 +119,7 @@ class GameManager:
 
         return ret
 
-    def handle(self, keys):
+    def handle(self, keys: list) -> None:
         """
         Handles the game logic for each turn.
 
@@ -137,4 +137,4 @@ class GameManager:
 
         self.turn += 1
         if self.turn % 10 == 0:
-            self.get_cell(self.get_next_fruit_pos()).set_color(consts.fruit_color)
+            self.get_cell(self._get_next_fruit_pos()).set_color(consts.fruit_color)
