@@ -1,4 +1,5 @@
 import consts
+from game_manager import GameManager
 
 
 class Snake:
@@ -6,10 +7,10 @@ class Snake:
     Represents a snake in the game.
 
     Attributes:
-    - keys (list): A list of keys used to control the snake.
+    - keys (dict): A list of keys used to control the snake.
     - cells (list): A list of positions occupied by the snake.
     - game (GameManager): The GameManager object the snake belongs to.
-    - color (str): The color of the snake.
+    - color (tuple): The color of the snake.
     - direction (str): The current direction of the snake.
 
     Methods:
@@ -23,15 +24,15 @@ class Snake:
     dx = {'UP': 0, 'DOWN': 0, 'LEFT': -1, 'RIGHT': 1}
     dy = {'UP': -1, 'DOWN': 1, 'LEFT': 0, 'RIGHT': 0}
 
-    def __init__(self, keys, game, pos, color, direction):
+    def __init__(self, keys: dict, game: 'GameManager', pos: tuple, color: tuple, direction: str):
         """
         Initializes a Snake object.
 
         Parameters:
-        - keys (list): A list of keys used to control the snake.
+        - keys (dict): A list of keys used to control the snake.
         - game (GameManager): The GameManager object the snake belongs to.
         - pos (tuple): The initial position of the snake.
-        - color (str): The color of the snake.
+        - color (tuple): The color of the snake.
         - direction (str): The initial direction of the snake.
 
         """
@@ -43,13 +44,13 @@ class Snake:
         self.direction = direction
         game.get_cell(pos).set_color(color)
 
-    def get_head(self):
+    def _get_head(self) -> tuple:
         """
         Returns the head cell of the snake.
         """
         return self.cells[-1]
 
-    def val(self, x):
+    def _val(self, x: int) -> int:
         """
         Adjusts the value of x to fit within the game size.
 
@@ -67,15 +68,15 @@ class Snake:
 
         return x
 
-    def next_move(self):
+    def next_move(self) -> None:
         """
         Moves the snake to the next cell based on its current direction.
         If the next cell is a block or another snake, the snake is killed.
         Otherwise, the snake moves to the next cell and updates its position.
         If the next cell is the background color, the snake's tail is removed.
         """
-        x, y = self.get_head()
-        next_cell = self.game.get_cell((self.val(x + self.dx[self.direction]), self.val(y + self.dy[self.direction])))
+        x, y = self._get_head()
+        next_cell = self.game.get_cell((self._val(x + self.dx[self.direction]), self._val(y + self.dy[self.direction])))
 
         if next_cell.color in [consts.block_color] + [s["color"] for s in consts.snakes]:
             self.game.kill(self)
@@ -85,17 +86,17 @@ class Snake:
             if next_cell.color == consts.back_color:
                 self.game.get_cell(self.cells.pop(0)).set_color(consts.back_color)
 
-    def handle(self, keys):
+    def handle(self, intput_keys: list) -> None:
         """
         Handles the input keys to change the direction of the snake.
 
         Parameters:
-        keys (list): A list of keys pressed by the player.
+        input_keys (list): A list of keys pressed by the player.
 
         Returns:
         None
         """
-        for k in keys:
+        for k in intput_keys:
             if k in self.keys and self.keys[k] != self.direction:
                 self.direction = self.keys[k]
                 break
