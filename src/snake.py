@@ -76,15 +76,16 @@ class Snake:
         If the next cell is the background color, the snake's tail is removed.
         """
         x, y = self._get_head()
-        next_cell = self.game.get_cell((self._val(x + self.dx[self.direction]), self._val(y + self.dy[self.direction])))
+        next_cell_pos = (self._val(x + self.dx[self.direction]), self._val(y + self.dy[self.direction]))
+        next_cell = self.game.get_cell(next_cell_pos)
 
         if next_cell.color in [consts.block_color] + [s["color"] for s in consts.snakes]:
             self.game.kill(self)
         else:
-            next_cell.set_color(self.color)
-            self.cells.append((x + self.dx[self.direction], y + self.dy[self.direction]))
+            self.cells.append(next_cell_pos)
             if next_cell.color == consts.back_color:
                 self.game.get_cell(self.cells.pop(0)).set_color(consts.back_color)
+            next_cell.set_color(self.color)
 
     def handle(self, intput_keys: list) -> None:
         """

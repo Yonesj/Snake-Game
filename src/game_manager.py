@@ -136,5 +136,5 @@ class GameManager:
             snake.next_move()
 
         self.turn += 1
-        if self.turn % 10 == 0:
+        if self.turn % 20 == 0:
             self.get_cell(self._get_next_fruit_pos()).set_color(consts.fruit_color)
